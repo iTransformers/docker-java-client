@@ -18,10 +18,12 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by cpt2nmi on 16.10.2017 г..
  */
+
 public class DockerImageController implements DockerImangeManager {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -108,6 +110,9 @@ public class DockerImageController implements DockerImangeManager {
 
     public void push(String image, String repo, String tag){
 
+        logger.debug("Pushing an image "+image+" from a repo: "+ repo+"with tag " +tag +"!");
+
+
         PushImageResultCallback callback = new PushImageResultCallback() {
 
 
@@ -116,13 +121,13 @@ public class DockerImageController implements DockerImangeManager {
                 logger.debug("id:" + item.getId()  +" status: "+item.getStatus());
                 super.onNext(item);
             }
-            @Override
-            public void onComplete() {
-                logger.debug("completed!");
-                super.onComplete();
-            }
+
         };
-        dockerClient.pushImageCmd(image).withName(repo).withTag(tag).exec(callback).awaitSuccess();
+        try {
+            dockerClient.pushImageCmd(image).withName(repo).withTag(tag).exec(callback).awaitCompletion(5, TimeUnit.MINUTES.MINUTES);
+        } catch (InterruptedException e) {
+            logger.error("Pull failed with",e);
+        }
     }
 
     public List<Image> getImages(){

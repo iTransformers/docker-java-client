@@ -13,9 +13,17 @@ import net.itransformers.dockerservicemanager.controller.DockerImageController;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+
 /**
  * Created by cpt2nmi on 18.10.2017 г..
  */
+@SpringBootApplication
+
 public class Application {
     public static void main(String[] args) {
         DockerCmdExecFactory dockerCmdExecFactory = new JerseyDockerCmdExecFactory()

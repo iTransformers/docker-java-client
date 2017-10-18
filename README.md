@@ -1,17 +1,26 @@
 # docker-java-client
 Thin wrapper on some docker java SDK api methods
 
-# To configure edit src/main/resources/dokcer-java.properties with your
+# To configure
+
+Edit src/main/resources/dokcer-java.properties with your docker parameters
 
 
-# to run it
 
+
+#Build
 ```
-mvn clean package
-
-cd target
-
-java -jar DockerServiceManager-1.0-SNAPSHOT-jar-with-dependencies.jar
-
+mvn clean install
 ```
 
+# Run
+## Through maven
+```
+mvn spring-boot:run
+```
+
+## From java
+
+```
+$ java -jar target/DockerServiceManager-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
